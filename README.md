@@ -1,5 +1,7 @@
 Tää listaa raideja ja silleen
 
+Forked for use in Helsinki
+
 You can get your own Raidikalu by clicking on this magic button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/raidikalu/raidikalu)
