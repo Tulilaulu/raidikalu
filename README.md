@@ -1,10 +1,10 @@
 Tää listaa raideja ja silleen
 
 Forked for use in Helsinki
-
-You can get your own Raidikalu by clicking on this magic button:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/raidikalu/raidikalu)
+Added commands by tulilaulu:
+`python manage.py import_pokemon`
+`python manage.py import_gyms`
+Source of import can be changed from scripts in management folder. Gyms wipes db, so be careful when using it.
 
 _default login is_ `admin:defaultpassword`
 
