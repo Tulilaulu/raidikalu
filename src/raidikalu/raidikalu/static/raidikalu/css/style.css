@@ -505,6 +505,14 @@ hr {
   background: pink;
   border-radius: 16px;
 }
+.missing-gym{
+  float: right;
+  font-size: 11px;
+  display: none;
+}
+.gym-choice-none:checked ~ .missing-gym{
+    display: inline-block;
+}
 .raid-form-submit {
   font-size: 24px;
   padding: 10px 15px;

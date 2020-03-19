@@ -1,39 +1,24 @@
 """
-Import json data from URL to Datababse
+Import raid data from Raidikalu (tampere) API to Datababse
 """
 import requests
 import json
 import os, sys
 
-proj_path = "src/raidikalu/raidikalu"
-# This is so Django knows where to find stuff.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "raidikalu.settings")
-sys.path.append(proj_path)
-
-# This is so my local_settings.py gets loaded.
-os.chdir(proj_path)
-
-# This is so models get loaded.
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
 from raidikalu.models import RaidType
 from django.core.management.base import BaseCommand
 from datetime import datetime
-IMPORT_URL = 'https://spreadsheets.google.com/feeds/list/19BNyX86PB-EuBPDp5IERqEq94QZR8cR8c1OaMMKux6k/od6/public/values?alt=json'
+
+IMPORT_URL = 'https://raidikalu.herokuapp.com/api/1/raidtypes/'
 
 class Command(BaseCommand):
     def import_pokemon(self, data):
-        name = data.get('gsx$monstername', None).get('$t', None)
-        number = data.get('gsx$monsternumber', None).get('$t', None)
-        priority = data.get('gsx$priority', None).get('$t', None)
-        image_url = data.get('gsx$imageurl', None).get('$t', None)
-        tier = data.get('gsx$tier', None).get('$t', None)
-        is_active = data.get('gsx$isactive', False).get('$t', False)
-        if (is_active == 'TRUE'):
-            is_active = True
-        if (is_active == 'FALSE'):
-            is_active = False
+        name = data.get('monster_name', None)
+        number = data.get('monster_number', None)
+        priority = data.get('priority', None)
+        image_url = data.get('image_url', None)
+        tier = data.get('tier', None)
+        is_active = data.get('is_active', False)
         try: 
             raidType, created = RaidType.objects.get_or_create(
                 monster_name=name,
@@ -66,6 +51,7 @@ class Command(BaseCommand):
         )
         response.raise_for_status()
         data = response.json()
-        for entry in data['feed']['entry']:
+        RaidType.objects.all().delete()
+        for entry in data:
             self.import_pokemon(entry)
 

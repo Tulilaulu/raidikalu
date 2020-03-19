@@ -6,18 +6,6 @@ import requests
 import json
 import os, sys
 
-proj_path = "src/raidikalu/raidikalu"
-# This is so Django knows where to find stuff.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "raidikalu.settings")
-sys.path.append(proj_path)
-
-# This is so my local_settings.py gets loaded.
-os.chdir(proj_path)
-
-# This is so models get loaded.
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
 from raidikalu.models import Gym
 from django.core.management.base import BaseCommand
 from datetime import datetime
@@ -38,17 +26,25 @@ class Command(BaseCommand):
             is_ex_eligible = True
         try: 
             gym, created = Gym.objects.get_or_create(
-                name=name,
-                pogo_id=pogo_id,
                 latitude=latitude,
                 longitude=longitude,
-                image_url=image_url,
-                is_ex_eligible=is_ex_eligible,
-                is_active=True
+                defaults={
+                    'name':name,
+                    'pogo_id':pogo_id,
+                    'image_url':image_url,
+                    'is_ex_eligible':is_ex_eligible,
+                    'is_active':True}
             )
             if created:
-                gym.save()
-                print("\nGym "+name+" has been saved.")
+                print("\nGym "+name+" has been created.")
+            else:
+                gym.name=name
+                gym.pogo_id=pogo_id
+                gym.image_url=image_url
+                gym.is_ex_eligible=is_ex_eligible
+                gym.is_active=True
+                print("Gym "+name+" already existed. It might have been updated.")
+            gym.save()
         except Exception as ex:
             print(str(ex))
             msg = "\n\nSomething went wrong saving this gym: {}\n{}".format(name, str(ex))

@@ -2,9 +2,10 @@ Tää listaa raideja ja silleen
 
 Forked for use in Helsinki
 Added commands by tulilaulu:
-`python manage.py import_pokemon`
+`python manage.py import_pokemon_raidikalu`
+`python manage.py import_pokemon_sheets`
 `python manage.py import_gyms`
-Source of import can be changed from scripts in management folder. Gyms wipes db, so be careful when using it.
+Source of import can be changed from scripts in management folder.
 
 _default login is_ `admin:defaultpassword`
 
