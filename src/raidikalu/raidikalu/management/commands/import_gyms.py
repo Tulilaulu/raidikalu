@@ -58,7 +58,7 @@ class Command(BaseCommand):
         )
         response.raise_for_status()
         data = response.json()
-        Gym.objects.all().delete()
+        #Gym.objects.all().delete()
         for entry in data['feed']['entry']:
             self.import_gym(entry)
 
